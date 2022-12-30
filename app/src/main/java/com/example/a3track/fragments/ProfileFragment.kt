@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -35,6 +36,8 @@ class ProfileFragment : Fragment() {
     private lateinit var usersViewModel: UsersViewModel
     private lateinit var shared: SharedPreferences
 
+    private lateinit var updateProfile: ImageView
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +64,12 @@ class ProfileFragment : Fragment() {
         email = view.findViewById(R.id.profileEmail)
         phone = view.findViewById(R.id.profilePhone)
         location = view.findViewById(R.id.profileLocation)
+
+        updateProfile = view.findViewById(R.id.editProfile)
+
+        updateProfile.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView2, UpdateProfileFragment()).addToBackStack(null).commit()
+        }
 
         val mDefaultBackground = resources.getDrawable(R.drawable.avatar)
 

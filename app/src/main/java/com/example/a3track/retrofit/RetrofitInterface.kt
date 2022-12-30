@@ -31,4 +31,7 @@ interface RetrofitInterface {
 
     @POST("task/create")
     suspend fun createTask(@Header("token") token: String, @Body createTaskModel: CreateTaskModel): Response<CreateTaskResponse>
+
+    @POST("users/updateProfile")
+    suspend fun updateUser(@Header("token") token: String, @Body updateProfileModel: UpdateProfileModel): Response<CreateTaskResponse>
 }

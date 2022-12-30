@@ -3,18 +3,20 @@ package com.example.a3track
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.a3track.fragments.ActivitiesFragment
+import com.example.a3track.fragments.MyGroupsFragment
 import com.example.a3track.fragments.MyTasksFragment
 import com.example.a3track.fragments.ProfileFragment
-import com.example.a3track.retrofit.models.GetDepartmentsModel
 import com.example.a3track.utils.Constants
 import com.example.a3track.viewmodels.DepartmentsViewModel
 import com.example.a3track.viewmodels.UsersViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.delay
 
 
 @Suppress("DEPRECATION")
@@ -68,7 +70,16 @@ class MainActivity : AppCompatActivity() {
                     return@OnNavigationItemSelectedListener true
 
                 }
+
+                R.id.mygroups -> {
+                    titleTextView.text = "My Groups"
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView2, MyGroupsFragment()).commit()
+                    return@OnNavigationItemSelectedListener true
+
+                }
             }
+
+
             true
         }
     }

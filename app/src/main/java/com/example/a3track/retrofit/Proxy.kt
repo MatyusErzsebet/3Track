@@ -1,9 +1,6 @@
 package com.example.a3track.retrofit
 
-import com.example.a3track.retrofit.models.CreateTaskModel
-import com.example.a3track.retrofit.models.ForgetPasswordModel
-import com.example.a3track.retrofit.models.LoginModel
-import com.example.a3track.retrofit.models.RefreshTokenModel
+import com.example.a3track.retrofit.models.*
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -32,5 +29,6 @@ object Proxy {
     suspend fun getUsers(token: String) = service.getUsers(token)
     suspend fun refreshToken(userId: Int) = service.refreshToken(RefreshTokenModel(userId = userId))
     suspend fun createTask(token: String, createTaskModel: CreateTaskModel) = service.createTask(token, createTaskModel)
+    suspend fun updateProfile(token: String, updateProfileModel: UpdateProfileModel) = service.updateUser(token, updateProfileModel)
 
 }

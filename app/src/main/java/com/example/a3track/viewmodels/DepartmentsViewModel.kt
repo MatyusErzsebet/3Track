@@ -28,6 +28,7 @@ class DepartmentsViewModel(application: Application): AndroidViewModel(applicati
 
     init{
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+
             val response = Proxy.getDepartments(context.getSharedPreferences(Constants.SHAREDPREF,
                 Context.MODE_PRIVATE).getString(Constants.TOKEN,"")!!)
             withContext(Dispatchers.Main) {

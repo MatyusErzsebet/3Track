@@ -3,6 +3,7 @@ package com.example.a3track.viewmodels
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,10 @@ class UsersViewModel(application: Application): AndroidViewModel(application) {
     val userList: MutableList<GetUsersModel> = mutableListOf()
 
     init{
+        getUsers()
+    }
+
+    fun getUsers(){
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = Proxy.getUsers(context.getSharedPreferences(Constants.SHAREDPREF,
                 Context.MODE_PRIVATE).getString(Constants.TOKEN,"")!!)
@@ -46,6 +51,8 @@ class UsersViewModel(application: Application): AndroidViewModel(application) {
                     myMentor = userList.first {
                         it.departmentId == myUser.departmentId && it.type == 0
                     }
+
+
 
                 } else {
                     onError("Can not get users!")

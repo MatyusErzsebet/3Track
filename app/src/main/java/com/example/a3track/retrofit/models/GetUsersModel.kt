@@ -18,6 +18,6 @@ data class GetUsersModel(
     @SerializedName("location")
     val location: String,
     @SerializedName("image")
-    val image: String
-
+    val image: String,
+    var departmentName: String
 )
