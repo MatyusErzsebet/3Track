@@ -27,7 +27,7 @@ class UsersViewModel(application: Application): AndroidViewModel(application) {
     lateinit var myUser : GetUsersModel
     lateinit var myMentor: GetUsersModel
 
-    val userList: MutableList<GetUsersModel> = mutableListOf()
+    var userList: MutableList<GetUsersModel> = mutableListOf()
 
     init{
         getUsers()

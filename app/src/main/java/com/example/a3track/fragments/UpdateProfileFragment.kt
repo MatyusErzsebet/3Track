@@ -86,33 +86,29 @@ class UpdateProfileFragment : Fragment() {
 
         updateButton = view.findViewById(R.id.updateProfileButton)
 
+
+        val save = userViewModel.userList
+        userViewModel.success.postValue(null)
+
+
         updateButton.setOnClickListener {
             if(lastName.text.isNotEmpty() && firstName.text.isNotEmpty() && phone.text.isNotEmpty() && location.text.isNotEmpty()){
 
-
                 success.observe(viewLifecycleOwner, Observer {
                     if(it == true){
-                        userViewModel.getUsers()
+                        userViewModel.success.postValue(false)
+                        Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_LONG).show()
+                        Log.d("MYUSER", userViewModel.myUser.lastName)
+                        Handler().postDelayed(Runnable {
+                            requireActivity().supportFragmentManager.beginTransaction().
+                            replace(R.id.fragmentContainerView2, ProfileFragment())
+                                .commit()
+                        }, 3000)
                     }
                     else
                         Toast.makeText(requireContext(), "Couldn't update profile", Toast.LENGTH_LONG).show()
 
                 })
-
-                userViewModel.success.observe(viewLifecycleOwner, Observer {
-                    Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_LONG).show()
-                    Log.d("MYUSER", userViewModel.myUser.lastName)
-                    Handler().postDelayed(Runnable {
-                        requireActivity().supportFragmentManager.beginTransaction().
-                        replace(R.id.fragmentContainerView2, ProfileFragment())
-                            .commit()
-                    }, 3000)
-                })
-
-                userViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
-                    Toast.makeText(requireContext(), "Couldn't update user data", Toast.LENGTH_LONG).show()
-                })
-
 
                 errorMessage.observe(viewLifecycleOwner, Observer {
                     Toast.makeText(requireContext(), "Couldn't update profile", Toast.LENGTH_LONG).show()

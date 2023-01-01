@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.a3track.R
@@ -42,6 +43,7 @@ class ProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requireActivity().viewModelStore.clear()
         usersViewModel = ViewModelProvider(requireActivity())[UsersViewModel::class.java]
         shared = requireActivity().getSharedPreferences(Constants.SHAREDPREF, Context.MODE_PRIVATE)
     }
@@ -73,17 +75,22 @@ class ProfileFragment : Fragment() {
 
         val mDefaultBackground = resources.getDrawable(R.drawable.avatar)
 
-        Glide.with(requireContext()).load(usersViewModel.myUser.image).error(mDefaultBackground).into(profileImageView)
-        profileName.text = usersViewModel.myUser.firstName + " " + usersViewModel.myUser.lastName
-        profileDepartment.text = "Software Developer"
+        usersViewModel.getUsers()
 
-        Glide.with(requireContext()).load(usersViewModel.myMentor.image).error(mDefaultBackground).into(mentorImageView)
-        mentorName.text = usersViewModel.myMentor.firstName + " " + usersViewModel.myMentor.lastName
-        mentorDepartment.text = usersViewModel.myUser.firstName + " " + usersViewModel.myUser.lastName +" 's mentor"
+        usersViewModel.success.observe(viewLifecycleOwner, Observer{
+            Glide.with(requireContext()).load(usersViewModel.myUser.image).error(mDefaultBackground).into(profileImageView)
+            profileName.text = usersViewModel.myUser.firstName + " " + usersViewModel.myUser.lastName
+            profileDepartment.text = "Software Developer"
 
-        email.text = shared.getString(Constants.EMAIL, "")
-        phone.text = usersViewModel.myUser.phoneNumber
-        location.text = usersViewModel.myUser.location
+            Glide.with(requireContext()).load(usersViewModel.myMentor.image).error(mDefaultBackground).into(mentorImageView)
+            mentorName.text = usersViewModel.myMentor.firstName + " " + usersViewModel.myMentor.lastName
+            mentorDepartment.text = usersViewModel.myUser.firstName + " " + usersViewModel.myUser.lastName +" 's mentor"
+
+            email.text = shared.getString(Constants.EMAIL, "")
+            phone.text = usersViewModel.myUser.phoneNumber
+            location.text = usersViewModel.myUser.location
+        })
+
 
         return view
     }
